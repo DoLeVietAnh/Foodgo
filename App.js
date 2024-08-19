@@ -1,55 +1,58 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Image } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
 
-//Components
-import home_icon from "./assets/icon-home.png";
-import profile_icon from "/assets/icon-profile.png";
-import add_icon from "/assets/icon-add-items.png";
-import chatbot_icon from "./assets/icon-chat.png";
-import favourite_icon from "./assets/icon-favourite.png";
+// Components
+import home_icon from "./assets/icons/icon-home.png";
+import profile_icon from "./assets/icons/icon-profile.png";
+import add_icon from "./assets/icons/icon-add-items.png";
+import chatbot_icon from "./assets/icons/icon-chat.png";
+import favourite_icon from "./assets/icons/icon-favourite.png";
 
-//Screens
-import Home from "./screens/HomeScreeen.js";
+// Screens
+import HomeScreen from "./screens/HomeScreen.js";
+import ProfileScreen from "./screens/ProfileScreen.js";
+import AddItemsScreen from "./screens/AddItemsScreen.js";
+import ChatbotScreen from "./screens/ChatbotScreen.js";
+import FavouriteScreen from "./screens/FavouriteScreen.js";
 
-const bottomTabs = createBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
-function myTabs() {
+const focusedColor = "#FFFFFF"; 
+const defaultColor = "#B0B0B0";
+
+function MyTabs() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color }) => {
+        tabBarIcon: ({ color, focused }) => {
           let iconPath;
+          const iconColor = focused ? focusedColor : defaultColor;
           let iconHeight = 24;
-          let iconWidth = 24;
 
           switch (route.name) {
             case "Home":
-              iconPath = focused ? require(home_icon) : require(home_icon);
+              iconPath = home_icon;
               break;
             case "Profile":
-              iconPath = focused
-                ? require(profile_icon)
-                : require(profile_icon);
+              iconPath = profile_icon;
+              iconHeight = 35;
               break;
-            case "Add":
-              iconPath = focused ? require(add_icon) : require(add_icon);
+            case "AddItems":
+              iconPath = add_icon;
               break;
             case "Chat":
-              iconPath = focused
-                ? require(chatbot_icon)
-                : require(chatbot_icon);
+              iconPath = chatbot_icon;
               break;
             case "Favorite":
-              iconPath = focused
-                ? require(favourite_icon)
-                : require(favourite_icon);
+              iconPath = favourite_icon;
               break;
           }
 
           return (
             <Image
               source={iconPath}
-              style={{ width: iconWidth, height: iconHeight, tintColor: color }}
+              style={{ width: 24, height: iconHeight, tintColor: iconColor }}
             />
           );
         },
@@ -58,11 +61,11 @@ function myTabs() {
         headerShown: false,
       })}
     >
-      <Tabs.Screen name="Home" component={Home} />
-      <Tabs.Screen name="Profile" component={Profile} />
-      <Tabs.Screen name="Add" component={Settings} />
-      <Tabs.Screen name="Chat" component={Settings} />
-      <Tabs.Screen name="Favourite" component={Settings} />
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="AddItems" component={AddItemsScreen} />
+      <Tab.Screen name="Chat" component={ChatbotScreen} />
+      <Tab.Screen name="Favorite" component={FavouriteScreen} />
     </Tab.Navigator>
   );
 }
@@ -70,10 +73,14 @@ function myTabs() {
 const styles = StyleSheet.create({
   tabBar: {
     height: 70,
-    paddingBottom: 10,
+    backgroundColor: "#EF2A39",
   },
 });
 
 export default function App() {
-  return <NavigationContainer>{myTabs()}</NavigationContainer>;
+  return (
+    <NavigationContainer>
+      <MyTabs />
+    </NavigationContainer>
+  );
 }
