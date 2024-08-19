@@ -1,7 +1,8 @@
-//TODO: FIX BOTTOM TABS COLOR GLITCH WHEN SCROLLING
+//TODO: ONLY SHOW THE BOTTOM TABS IN ONLY HOMESCREEN 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StyleSheet, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
 // Components
 import home_icon from "./assets/icons/icon-home.png";
@@ -16,11 +17,30 @@ import ProfileScreen from "./screens/ProfileScreen.js";
 import AddItemsScreen from "./screens/AddItemsScreen.js";
 import ChatbotScreen from "./screens/ChatbotScreen.js";
 import FavouriteScreen from "./screens/FavouriteScreen.js";
+import ChickenBurgerScreen from "./screens/BurgerScreens/ChickenBurger.js";
+import VeggieBurgerScreen from "./screens/BurgerScreens/VeggieBurger.js";
+import WendysBurgerScreen from "./screens/BurgerScreens/WendyBurger.js";
+import FriedChickenBurgerScreen from "./screens/BurgerScreens/FriedChickenBurger.js";
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
-const focusedColor = "#FFFFFF"; 
+const focusedColor = "#FFFFFF";
 const defaultColor = "#B0B0B0";
+
+// function HomeStack() {
+//   return (
+//     <Stack.Navigator screenOptions={
+//       {headerShown: false}
+//     }>
+//       <Stack.Screen name="Home" component={HomeScreen} />
+//       <Stack.Screen name="ChickenBurger" component={ChickenBurgerScreen} />
+//       <Stack.Screen name="VeggieBurger" component={VeggieBurgerScreen} />
+//       <Stack.Screen name="WendysBurger" component={WendysBurgerScreen} />
+//       <Stack.Screen name="FriedChickenBurger" component={FriedChickenBurgerScreen} />
+//     </Stack.Navigator>
+//   );
+// }
 
 function MyTabs() {
   return (
@@ -63,7 +83,7 @@ function MyTabs() {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Profile" component={WendysBurgerScreen} />
       <Tab.Screen name="AddItems" component={AddItemsScreen} />
       <Tab.Screen name="Chat" component={ChatbotScreen} />
       <Tab.Screen name="Favorite" component={FavouriteScreen} />

@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
 // Assets
 import ProfilePicture from "../assets/images/profile-picture.png";
@@ -20,6 +22,12 @@ import wendysBurger from "../assets/images/wendys-burger.png";
 import veggieBurger from "../assets/images/veggie-burger.png";
 import chickenBurger from "../assets/images/chicken-burger.png";
 import friedChickenBurger from "../assets/images/fried-chicken-burger.png";
+
+// Screens
+import ChickenBurgerScreen from "./BurgerScreens/ChickenBurger.js";
+import VeggieBurgerScreen from "./BurgerScreens/VeggieBurger.js";
+import WendysBurgerScreen from "./BurgerScreens/WendyBurger.js";
+import FriedChickenBurgerScreen from "./BurgerScreens/FriedChickenBurger.js";
 
 // Menu items
 const menuItems = [
@@ -39,24 +47,28 @@ const clickableItems = [
     image: wendysBurger,
     title: "Chesseburger",
     subtitle: "Wendy's Burger",
+    goToPath: WendysBurgerScreen,
   },
   {
     id: 2,
     image: veggieBurger,
     title: "Hamburger",
     subtitle: "Veggie Burger",
+    goToPath: "VeggieBurgerScreen",
   },
   {
     id: 3,
     image: chickenBurger,
     title: "Hamburger",
     subtitle: "Chicken Burger",
+    goToPath: "ChickenBurgerScreen",
   },
   {
     id: 4,
     image: friedChickenBurger,
     title: "Hamburger",
     subtitle: "Fried Chicken Burger",
+    goToPath: "FriedChickenBurgerScreen",
   },
 ];
 
@@ -116,7 +128,10 @@ const App = () => {
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.clickableItemsContainer}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.clickableItem}>
+          <TouchableOpacity
+            style={styles.clickableItem}
+            // onPress={() => navigation.navigate(item.goToPath)}
+          >
             <Image source={item.image} style={styles.clickableItemImage} />
             <View style={styles.clickableItemTextContainer}>
               <Text style={styles.clickableItemTitle}>{item.title}</Text>
