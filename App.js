@@ -1,3 +1,4 @@
+//TODO: FIX BOTTOM TABS COLOR GLITCH WHEN SCROLLING
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StyleSheet, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
