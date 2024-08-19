@@ -1,4 +1,5 @@
 //TODO: ONLY SHOW THE BOTTOM TABS IN ONLY HOMESCREEN 
+//! ĐANG ĐỂ PROFILE LÀ 1 SCREEN BURGER ĐỂ TEST
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StyleSheet, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
