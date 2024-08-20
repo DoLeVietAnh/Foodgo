@@ -1,48 +1,36 @@
-//TODO: ONLY SHOW THE BOTTOM TABS IN ONLY HOMESCREEN 
-//! ĐANG ĐỂ PROFILE LÀ 1 SCREEN BURGER ĐỂ TEST
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// Components
+// Import your icons
 import home_icon from "./assets/icons/icon-home.png";
 import profile_icon from "./assets/icons/icon-profile.png";
 import add_icon from "./assets/icons/icon-add-items.png";
 import chatbot_icon from "./assets/icons/icon-chat.png";
 import favourite_icon from "./assets/icons/icon-favourite.png";
 
-// Screens
+// Import screens
+import SignUpScreen from "./screens/SignUpScreen";
+import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
+import IntroScreen from "./screens/IntroScreen";
+import ProfileScreen from "./screens/ProfileScreen";
+import LoginScreen from "./screens/LoginScreen";
 import HomeScreen from "./screens/HomeScreen.js";
-import ProfileScreen from "./screens/ProfileScreen.js";
 import AddItemsScreen from "./screens/AddItemsScreen.js";
 import ChatbotScreen from "./screens/ChatbotScreen.js";
 import FavouriteScreen from "./screens/FavouriteScreen.js";
-import ChickenBurgerScreen from "./screens/BurgerScreens/ChickenBurger.js";
-import VeggieBurgerScreen from "./screens/BurgerScreens/VeggieBurger.js";
 import WendysBurgerScreen from "./screens/BurgerScreens/WendyBurger.js";
-import FriedChickenBurgerScreen from "./screens/BurgerScreens/FriedChickenBurger.js";
 
+const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
 
 const focusedColor = "#FFFFFF";
 const defaultColor = "#B0B0B0";
 
-// function HomeStack() {
-//   return (
-//     <Stack.Navigator screenOptions={
-//       {headerShown: false}
-//     }>
-//       <Stack.Screen name="Home" component={HomeScreen} />
-//       <Stack.Screen name="ChickenBurger" component={ChickenBurgerScreen} />
-//       <Stack.Screen name="VeggieBurger" component={VeggieBurgerScreen} />
-//       <Stack.Screen name="WendysBurger" component={WendysBurgerScreen} />
-//       <Stack.Screen name="FriedChickenBurger" component={FriedChickenBurgerScreen} />
-//     </Stack.Navigator>
-//   );
-// }
-
+// Bottom Tabs
 function MyTabs() {
   return (
     <Tab.Navigator
@@ -79,18 +67,87 @@ function MyTabs() {
           );
         },
         tabBarShowLabel: false,
-        tabBarStyle: styles.tabBar,
+        tabBarStyle:
+          route.name === "Home" ? styles.tabBar : { display: "none" },
         headerShown: false,
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen options={{tabBarStyle: {display: "none"}}} name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
       <Tab.Screen name="AddItems" component={WendysBurgerScreen} />
-      <Tab.Screen options={{tabBarStyle: {display: "none"}}} name="Chat" component={ChatbotScreen} />
+      <Tab.Screen name="Chat" component={ChatbotScreen} />
       <Tab.Screen name="Favorite" component={FavouriteScreen} />
     </Tab.Navigator>
   );
 }
+
+// Main App Component
+const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const loginStatus = await AsyncStorage.getItem("isLoggedIn");
+        setIsLoggedIn(loginStatus === "true");
+      } catch (error) {
+        console.error("Failed to check login status:", error);
+      }
+    };
+    checkLoginStatus();
+  }, []);
+
+  if (isLoggedIn === null) {
+    return null; // or a loading screen if needed
+  }
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName={isLoggedIn ? "Tabs" : "IntroScreen"}>
+        <Stack.Screen
+          name="IntroScreen"
+          component={IntroScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ChatScreen"
+          component={ChatbotScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SignUpScreen"
+          component={SignUpScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ForgotPasswordScreen"
+          component={ForgotPasswordScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Tabs"
+          component={MyTabs}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
 
 const styles = StyleSheet.create({
   tabBar: {
@@ -99,10 +156,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function App() {
-  return (
-    <NavigationContainer>
-      <MyTabs />
-    </NavigationContainer>
-  );
-}
+export default App;

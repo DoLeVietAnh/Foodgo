@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -10,7 +10,6 @@ import {
   Dimensions,
 } from "react-native";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons"; // For icons
-import AsyncStorage from "@react-native-async-storage/async-storage";
 const { width, height } = Dimensions.get("window"); // Get screen dimensions
 
 import profilePic from "../assets/images/profile-pic.png";
@@ -22,21 +21,6 @@ const ProfileScreen = ({ navigation }) => {
     setIsEditable(!isEditable); // Toggle edit mode
   };
 
-  const [username, setUsername] = useState("");
-
-  useEffect(() => {
-    const getUsername = async () => {
-      const storedUsername = await AsyncStorage.getItem("username");
-      setUsername(storedUsername);
-    };
-    getUsername();
-  }, []);
-
-  const handleLogout = async () => {
-    await AsyncStorage.removeItem("isLoggedIn");
-    await AsyncStorage.removeItem("username");
-    navigation.replace("Login");
-  };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -96,7 +80,6 @@ const ProfileScreen = ({ navigation }) => {
             editable={isEditable} // Control editability
           />
         </View>
-
         <View style={styles.buttonRow}>
           {/* Buttons */}
           <TouchableOpacity style={styles.editButton} onPress={toggleEditMode}>
@@ -109,7 +92,10 @@ const ProfileScreen = ({ navigation }) => {
               color="white"
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+          <TouchableOpacity
+            style={styles.logoutButton}
+            onPress={() => navigation.navigate("Login")}
+          >
             <Text style={styles.logoutButtonText}>Log out</Text>
             <Ionicons name="log-out-outline" size={20} color="red" />
           </TouchableOpacity>
@@ -135,18 +121,18 @@ const styles = StyleSheet.create({
     width: width * 0.3, // Adjusting to 30% of the screen width
     height: width * 0.35, // Keeping it square
     borderRadius: 20, // Half of the width to make it circular
-    marginBottom: height * 0.02,
+    //marginBottom: height * 0.02,
     borderWidth: 3,
     borderColor: "white",
   },
   iconButtonLeft: {
     position: "absolute",
-    top: height * 0.02,
+    top: height * 0.03,
     left: 10,
   },
   iconButtonRight: {
     position: "absolute",
-    top: height * 0.02,
+    top: height * 0.03,
     right: 20,
   },
   formContainer: {
@@ -182,6 +168,7 @@ const styles = StyleSheet.create({
   buttonRow: {
     flexDirection: "row", // Align children in a row
     justifyContent: "space-between", // Space between the buttons
+    paddingTop: 130,
   },
   editButton: {
     backgroundColor: "black",
