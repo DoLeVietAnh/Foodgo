@@ -86,7 +86,7 @@ function MyTabs() {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen options={{tabBarStyle: {display: "none"}}} name="Profile" component={ProfileScreen} />
       <Tab.Screen name="AddItems" component={WendysBurgerScreen} />
-      <Tab.Screen name="Chat" component={ChatbotScreen} />
+      <Tab.Screen options={{tabBarStyle: {display: "none"}}} name="Chat" component={ChatbotScreen} />
       <Tab.Screen name="Favorite" component={FavouriteScreen} />
     </Tab.Navigator>
   );

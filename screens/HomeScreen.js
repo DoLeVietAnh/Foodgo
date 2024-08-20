@@ -47,6 +47,7 @@ const clickableItems = [
     image: wendysBurger,
     title: "Chesseburger",
     subtitle: "Wendy's Burger",
+    rating: "4.9",
     goToPath: WendysBurgerScreen,
   },
   {
@@ -54,6 +55,7 @@ const clickableItems = [
     image: veggieBurger,
     title: "Hamburger",
     subtitle: "Veggie Burger",
+    rating: "4.8",
     goToPath: "VeggieBurgerScreen",
   },
   {
@@ -61,6 +63,7 @@ const clickableItems = [
     image: chickenBurger,
     title: "Hamburger",
     subtitle: "Chicken Burger",
+    rating: "4.6",
     goToPath: "ChickenBurgerScreen",
   },
   {
@@ -68,6 +71,7 @@ const clickableItems = [
     image: friedChickenBurger,
     title: "Hamburger",
     subtitle: "Fried Chicken Burger",
+    rating: "4.5",
     goToPath: "FriedChickenBurgerScreen",
   },
 ];
@@ -130,7 +134,7 @@ const App = () => {
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.clickableItem}
-            // onPress={() => navigation.navigate(item.goToPath)}
+            //onPress={() => navigation.navigate(item.goToPath)}
           >
             <Image source={item.image} style={styles.clickableItemImage} />
             <View style={styles.clickableItemTextContainer}>
@@ -139,6 +143,9 @@ const App = () => {
             </View>
             <View style={styles.clickableItemFooter}>
               <Image source={starRating} style={styles.footerIcon} />
+              <Text style={styles.footerText}>
+                {item.rating}
+              </Text>
               <Text style={styles.clickableItemDescription}>
                 {item.description}
               </Text>
@@ -281,6 +288,11 @@ const styles = StyleSheet.create({
   footerIcon: {
     width: 20,
     height: 20,
+  },
+  footerText: {
+    fontSize: 14,
+    color: "#000000",
+    marginLeft: 3,
   },
   clickableItemDescription: {
     flex: 1,

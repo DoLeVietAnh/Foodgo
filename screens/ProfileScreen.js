@@ -127,12 +127,12 @@ const styles = StyleSheet.create({
   },
   iconButtonLeft: {
     position: "absolute",
-    top: height * 0.02,
+    top: height * 0.03,
     left: 10,
   },
   iconButtonRight: {
     position: "absolute",
-    top: height * 0.02,
+    top: height * 0.03,
     right: 20,
   },
   formContainer: {
