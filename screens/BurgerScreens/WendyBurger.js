@@ -18,6 +18,15 @@ import StarRating from "../../assets/icons/icon-star-rating.png";
 const WendyBurgerScreen = () => {
   const navigation = useNavigation();
   const [portion, setPortion] = useState(1); // Default portion value
+  const basePrice = 8.24; // Base price for one portion
+
+  // Handle navigation to CustomizeBurgerScreen
+  const handleCustomize = () => {
+    navigation.navigate("CustomizeBurgerScreen");
+  };
+
+  // Calculate total price
+  const totalPrice = (basePrice * portion).toFixed(2);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -31,7 +40,7 @@ const WendyBurgerScreen = () => {
         <Image source={Burger} style={styles.BannerImage} />
       </View>
       <View style={styles.detailsContainer}>
-        <Text style={styles.ItemName}>Chessburger Wendy's Burger</Text>
+        <Text style={styles.ItemName}>Cheeseburger Wendy's Burger</Text>
         <View style={styles.ItemRating}>
           <Image source={StarRating} style={styles.StarIcon} />
           <Text>4.9 - 26 mins</Text>
@@ -61,9 +70,14 @@ const WendyBurgerScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <TouchableOpacity style={styles.orderButton}>
-        <Text style={styles.orderButtonText}>ORDER NOW</Text>
-      </TouchableOpacity>
+      <View style={styles.bottomContainer}>
+        <View style={styles.priceContainer}>
+          <Text style={styles.priceText}>${totalPrice}</Text>
+        </View>
+        <TouchableOpacity style={styles.orderButton} onPress={handleCustomize}>
+          <Text style={styles.orderButtonText}>ORDER NOW</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
@@ -121,8 +135,8 @@ const styles = StyleSheet.create({
   },
   portionContainer: {
     position: "absolute",
-    right: 20,
-    bottom: 12,
+    right: 5,
+    bottom: 100,
     padding: 10,
   },
   portionLabel: {
@@ -154,10 +168,27 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
-  orderButton: {
+  bottomContainer: {
     position: "absolute",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     left: 20,
+    right: 20,
     bottom: 20,
+  },
+  priceContainer: {
+    backgroundColor: "#EF2A39",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  priceText: {
+    color: "#FFFFFF",
+    fontSize: 26,
+    fontWeight: "bold",
+  },
+  orderButton: {
     backgroundColor: "#3C2F2F",
     paddingVertical: 20,
     paddingHorizontal: 40,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -10,14 +10,56 @@ import {
   Dimensions,
 } from "react-native";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons"; // For icons
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const { width, height } = Dimensions.get("window"); // Get screen dimensions
 
 import profilePic from "../assets/images/profile-pic.png";
 
 const ProfileScreen = ({ navigation }) => {
   const [isEditable, setIsEditable] = useState(false); // State to control edit mode
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [password, setPassword] = useState("");
 
-  const toggleEditMode = () => {
+  useEffect(() => {
+    const loadProfileData = async () => {
+      try {
+        const profileData = await AsyncStorage.getItem("profileData");
+        if (profileData) {
+          const { name, email, address, password } = JSON.parse(profileData);
+          setName(name);
+          setEmail(email);
+          setAddress(address);
+          setPassword(password);
+        }
+      } catch (error) {
+        console.error("Error loading profile data:", error);
+      }
+    };
+
+    loadProfileData();
+  }, []);
+
+  const toggleEditMode = async () => {
+    if (isEditable) {
+      try {
+        await AsyncStorage.setItem(
+          "profileData",
+          JSON.stringify({
+            name,
+            email,
+            address,
+            password,
+          })
+        );
+        alert("Profile updated successfully!");
+      } catch (error) {
+        console.error("Error saving profile:", error);
+        alert("An error occurred.");
+      }
+    }
     setIsEditable(!isEditable); // Toggle edit mode
   };
 
@@ -42,7 +84,8 @@ const ProfileScreen = ({ navigation }) => {
           <Text style={styles.label}>Name</Text>
           <TextInput
             style={[styles.input, !isEditable && styles.disabledInput]}
-            value="Sophia Patel"
+            value={name}
+            onChangeText={setName}
             editable={isEditable} // Control editability
           />
         </View>
@@ -50,7 +93,8 @@ const ProfileScreen = ({ navigation }) => {
           <Text style={styles.label}>Email</Text>
           <TextInput
             style={[styles.input, !isEditable && styles.disabledInput]}
-            value="sophiapatel@gmail.com"
+            value={email}
+            onChangeText={setEmail}
             keyboardType="email-address"
             editable={isEditable} // Control editability
           />
@@ -59,7 +103,8 @@ const ProfileScreen = ({ navigation }) => {
           <Text style={styles.label}>Delivery address</Text>
           <TextInput
             style={[styles.input, !isEditable && styles.disabledInput]}
-            value="123 Main St Apartment 4A, New York, NY"
+            value={address}
+            onChangeText={setAddress}
             editable={isEditable} // Control editability
           />
         </View>
@@ -75,11 +120,13 @@ const ProfileScreen = ({ navigation }) => {
           </Text>
           <TextInput
             style={[styles.input, !isEditable && styles.disabledInput]}
-            value="********"
+            value={password}
+            onChangeText={setPassword}
             secureTextEntry={true}
             editable={isEditable} // Control editability
           />
         </View>
+
         <View style={styles.buttonRow}>
           {/* Buttons */}
           <TouchableOpacity style={styles.editButton} onPress={toggleEditMode}>
@@ -121,18 +168,18 @@ const styles = StyleSheet.create({
     width: width * 0.3, // Adjusting to 30% of the screen width
     height: width * 0.35, // Keeping it square
     borderRadius: 20, // Half of the width to make it circular
-    //marginBottom: height * 0.02,
+    marginBottom: height * 0.02,
     borderWidth: 3,
     borderColor: "white",
   },
   iconButtonLeft: {
     position: "absolute",
-    top: height * 0.03,
+    top: height * 0.02,
     left: 10,
   },
   iconButtonRight: {
     position: "absolute",
-    top: height * 0.03,
+    top: height * 0.02,
     right: 20,
   },
   formContainer: {
@@ -155,6 +202,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     fontSize: width * 0.045,
+    fontWeight: "bold",
     color: "#333",
     backgroundColor: "#fff",
   },
@@ -167,8 +215,8 @@ const styles = StyleSheet.create({
   },
   buttonRow: {
     flexDirection: "row", // Align children in a row
-    justifyContent: "space-between", // Space between the buttons
-    paddingTop: 130,
+    justifyContent: "space-between",
+    paddingTop: 110, // Space between the buttons
   },
   editButton: {
     backgroundColor: "black",
@@ -184,8 +232,7 @@ const styles = StyleSheet.create({
   },
   editButtonText: {
     color: "white",
-    alignItems: "center",
-    marginLeft: 10,
+    marginLeft: 20,
     fontSize: 18,
   },
   logoutButton: {
@@ -199,16 +246,13 @@ const styles = StyleSheet.create({
     height: 60,
     borderBottomColor: "red",
     borderColor: "red",
+    borderWidth: 2,
   },
   logoutButtonText: {
     color: "red",
     fontSize: 18,
     borderColor: "red",
-    marginLeft: 25,
-  },
-  optionButtonText: {
-    fontSize: width * 0.045,
-    color: "#333",
+    marginLeft: 30,
   },
 });
 

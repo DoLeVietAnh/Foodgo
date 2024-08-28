@@ -16,13 +16,17 @@ import favourite_icon from "./assets/icons/icon-favourite.png";
 import SignUpScreen from "./screens/SignUpScreen";
 import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
 import IntroScreen from "./screens/IntroScreen";
-import ProfileScreen from "./screens/ProfileScreen";
+import ProfileScreen from "./screens/ProfileScreen2.js";
 import LoginScreen from "./screens/LoginScreen";
 import HomeScreen from "./screens/HomeScreen.js";
-import AddItemsScreen from "./screens/AddItemsScreen.js";
 import ChatbotScreen from "./screens/ChatbotScreen.js";
-import FavouriteScreen from "./screens/FavouriteScreen.js";
 import WendysBurgerScreen from "./screens/BurgerScreens/WendyBurger.js";
+import ChickenBurgerScreen from "./screens/BurgerScreens/ChickenBurger.js";
+import VeggieBurgerScreen from "./screens/BurgerScreens/VeggieBurger.js";
+import FriedChickenBurgerScreen from "./screens/BurgerScreens/FriedChickenBurger.js";
+import CustomizeBurgerScreen from "./screens/CustomizeBurger.js";
+import PaymentScreen from "./screens/PaymentScreen.js";
+import SuccessScreen from "./screens/SuccessScreen.js";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -74,9 +78,7 @@ function MyTabs() {
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
-      <Tab.Screen name="AddItems" component={WendysBurgerScreen} />
       <Tab.Screen name="Chat" component={ChatbotScreen} />
-      <Tab.Screen name="Favorite" component={FavouriteScreen} />
     </Tab.Navigator>
   );
 }
@@ -142,6 +144,41 @@ const App = () => {
         <Stack.Screen
           name="Tabs"
           component={MyTabs}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="WendysBurgerScreen"
+          component={WendysBurgerScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ChickenBurgerScreen"
+          component={ChickenBurgerScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="VeggieBurgerScreen"
+          component={VeggieBurgerScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="FriedChickenBurgerScreen"
+          component={FriedChickenBurgerScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="CustomizeBurgerScreen"
+          component={CustomizeBurgerScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="PaymentScreen"
+          component={PaymentScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SuccessScreen"
+          component={SuccessScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

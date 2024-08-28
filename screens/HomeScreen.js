@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
 
 // Assets
 import ProfilePicture from "../assets/images/profile-picture.png";
@@ -48,7 +49,7 @@ const clickableItems = [
     title: "Chesseburger",
     subtitle: "Wendy's Burger",
     rating: "4.9",
-    goToPath: WendysBurgerScreen,
+    goToPath: { name: "WendysBurgerScreen" },
   },
   {
     id: 2,
@@ -56,7 +57,7 @@ const clickableItems = [
     title: "Hamburger",
     subtitle: "Veggie Burger",
     rating: "4.8",
-    goToPath: "VeggieBurgerScreen",
+    goToPath: { name: "VeggieBurgerScreen" },
   },
   {
     id: 3,
@@ -64,7 +65,7 @@ const clickableItems = [
     title: "Hamburger",
     subtitle: "Chicken Burger",
     rating: "4.6",
-    goToPath: "ChickenBurgerScreen",
+    goToPath: { name: "ChickenBurgerScreen" },
   },
   {
     id: 4,
@@ -72,11 +73,13 @@ const clickableItems = [
     title: "Hamburger",
     subtitle: "Fried Chicken Burger",
     rating: "4.5",
-    goToPath: "FriedChickenBurgerScreen",
+    goToPath: { name: "FriedChickenBurgerScreen" },
   },
 ];
 
 const App = () => {
+  const navigation = useNavigation();
+
   const numColumns = 2;
 
   return (
@@ -134,18 +137,23 @@ const App = () => {
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.clickableItem}
-            //onPress={() => navigation.navigate(item.goToPath)}
+            onPress={() => navigation.navigate(item.goToPath.name)}
           >
-            <Image source={item.image} style={styles.clickableItemImage} />
+            <Image
+              source={item.image}
+              style={[
+                styles.clickableItemImage,
+                item.id == 4 && { height: 100, width: "110%" },
+                item.id == 3 && { height: 100, width: "100%" },
+              ]}
+            />
             <View style={styles.clickableItemTextContainer}>
               <Text style={styles.clickableItemTitle}>{item.title}</Text>
               <Text style={styles.clickableItemSubtitle}>{item.subtitle}</Text>
             </View>
             <View style={styles.clickableItemFooter}>
               <Image source={starRating} style={styles.footerIcon} />
-              <Text style={styles.footerText}>
-                {item.rating}
-              </Text>
+              <Text style={styles.footerText}>{item.rating}</Text>
               <Text style={styles.clickableItemDescription}>
                 {item.description}
               </Text>
@@ -264,7 +272,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   clickableItemImage: {
-    width: "100%",
+    width: "90%",
     height: 100,
     borderRadius: 10,
     marginBottom: 10,
