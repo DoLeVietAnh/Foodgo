@@ -51,7 +51,7 @@ const LoginScreen = ({ navigation }) => {
   const handleLogin = async () => {
     try {
       const response = await fetch(
-        `http://192.168.1.2:8099/api/account/username/${username}`
+        `http://172.17.152.117:8099/api/account/username/${username}`
       );
 
       if (!response.ok) {

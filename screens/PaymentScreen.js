@@ -21,7 +21,7 @@ export default function PaymentScreen() {
         "https://my.sepay.vn/userapi/transactions/list",
         {
           headers: {
-            Authorization: `Bearer 70PTKIKVIUFHZ35ECJQZZKCYLWEXUSXESXICNAYHSJ82PNNBCO1AP9OLW6HFGML3`,
+            Authorization: `Bearer YFA6QBSYDOPC8IMBHNYIVWMPTBDGEGPWCKPHRVCVO3XD4QQWTT2ZYQUITSHU0N92`,
           },
         }
       );

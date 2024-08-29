@@ -26,7 +26,7 @@ const IntroScreen = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.replace("Login"); // Navigate to the Login screen after 1.5 seconds
+      navigation.replace("Login"); // Navigate to the Tabs screen after 1.5 seconds
     }, 1500);
 
     return () => clearTimeout(timer); // Cleanup the timer on component unmount

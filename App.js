@@ -5,14 +5,13 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// Import your icons
+// Import your icons and screens
 import home_icon from "./assets/icons/icon-home.png";
 import profile_icon from "./assets/icons/icon-profile.png";
 import add_icon from "./assets/icons/icon-add-items.png";
 import chatbot_icon from "./assets/icons/icon-chat.png";
 import favourite_icon from "./assets/icons/icon-favourite.png";
 
-// Import screens
 import SignUpScreen from "./screens/SignUpScreen";
 import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
 import IntroScreen from "./screens/IntroScreen";
@@ -86,12 +85,17 @@ function MyTabs() {
 // Main App Component
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [introShown, setIntroShown] = useState(false);
 
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
         const loginStatus = await AsyncStorage.getItem("isLoggedIn");
         setIsLoggedIn(loginStatus === "true");
+
+        // Check if IntroScreen was already shown
+        const introShownStatus = await AsyncStorage.getItem("introShown");
+        setIntroShown(introShownStatus === "true");
       } catch (error) {
         console.error("Failed to check login status:", error);
       }
@@ -105,11 +109,18 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={isLoggedIn ? "Tabs" : "IntroScreen"}>
+      <Stack.Navigator initialRouteName="IntroScreen">
         <Stack.Screen
           name="IntroScreen"
           component={IntroScreen}
           options={{ headerShown: false }}
+          listeners={({ navigation }) => ({
+            focus: async () => {
+              setTimeout(() => {
+                navigation.replace("Login");
+              }, 1500);
+            },
+          })}
         />
         <Stack.Screen
           name="Login"

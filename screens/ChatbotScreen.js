@@ -42,7 +42,7 @@ const ChatScreen = ({ navigation }) => {
       setTyping(true); // Set typing indicator
 
       try {
-        const response = await axios.post("http://192.168.1.2:5000/chat", {
+        const response = await axios.post("http://172.17.152.117:5000/chat", {
           message: inputText,
         });
 
